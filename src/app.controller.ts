@@ -1,9 +1,20 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Res,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { MessageDto } from './message.dto';
 import { Response } from 'express';
 
-@Controller()
+@Controller('messages')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
