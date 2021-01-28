@@ -4,15 +4,14 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpException,
   HttpStatus,
   Param,
   Post,
   Put,
-  Res,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MessageDto } from './message.dto';
-import { Response } from 'express';
 
 @Controller('messages')
 export class AppController {
@@ -24,19 +23,17 @@ export class AppController {
   }
 
   @Get(':id')
-  getMessageById(
-    @Param('id') id: string,
-    @Res() response: Response,
-  ): MessageDto {
+  getMessageById(@Param('id') id: string): MessageDto {
     const message = this.appService.getMessageById(+id);
 
     if (!message) {
-      response.status(HttpStatus.NOT_FOUND).send();
-
-      return;
+      throw new HttpException(
+        `Can't find message with given ID.`,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
-    response.send(message);
+    return message;
   }
 
   @Post()
@@ -48,30 +45,29 @@ export class AppController {
   update(
     @Param('id') id: string,
     @Body() message: MessageDto,
-    @Res() response: Response,
   ): MessageDto | undefined {
     const messageUpdated = this.appService.updateMessage(+id, message);
 
     if (!messageUpdated) {
-      response.status(HttpStatus.NOT_FOUND).send();
-
-      return;
+      throw new HttpException(
+        `Can't find message with given ID.`,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
-    response.send(messageUpdated);
+    return messageUpdated;
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string, @Res() response: Response) {
+  remove(@Param('id') id: string) {
     const removed = this.appService.removeMessage(+id);
 
     if (!removed) {
-      response.status(HttpStatus.NOT_FOUND).send();
-
-      return;
+      throw new HttpException(
+        `Can't find message with given ID.`,
+        HttpStatus.NOT_FOUND,
+      );
     }
-
-    response.send();
   }
 }
