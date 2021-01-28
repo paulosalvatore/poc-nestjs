@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -10,10 +11,10 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MessageDto } from './message.dto';
-import { ValidationPipe } from './validation.pipe';
 
 @Controller('messages')
 export class AppController {
@@ -40,7 +41,12 @@ export class AppController {
 
   @Post()
   createMessage(
-    @Body(new ValidationPipe()) message: MessageDto,
+    @Body(
+      new ValidationPipe({
+        exceptionFactory: errors => new BadRequestException(errors),
+      }),
+    )
+    message: MessageDto,
   ): MessageDto | undefined {
     return this.appService.createMessage(message);
   }
