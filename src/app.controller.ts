@@ -14,12 +14,14 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Public } from './decorators/public.decorator';
 import { MessageDto } from './message.dto';
 
 @Controller('messages')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Public()
   @Get()
   getMessages(): MessageDto[] {
     return this.appService.getMessages();
