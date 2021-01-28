@@ -13,18 +13,41 @@ export class AppController {
   }
 
   @Get(':id')
-  getMessageById(@Param('id') id: string): MessageDto {
-    return this.appService.getMessageById(+id);
+  getMessageById(
+    @Param('id') id: string,
+    @Res() response: Response,
+  ): MessageDto {
+    const message = this.appService.getMessageById(+id);
+
+    if (!message) {
+      response.status(HttpStatus.NOT_FOUND).send();
+
+      return;
+    }
+
+    response.send(message);
   }
 
   @Post()
-  createMessage(@Body() message: MessageDto): MessageDto {
+  createMessage(@Body() message: MessageDto): MessageDto | undefined {
     return this.appService.createMessage(message);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() message: MessageDto): MessageDto {
-    return this.appService.updateMessage(+id, message);
+  update(
+    @Param('id') id: string,
+    @Body() message: MessageDto,
+    @Res() response: Response,
+  ): MessageDto | undefined {
+    const messageUpdated = this.appService.updateMessage(+id, message);
+
+    if (!messageUpdated) {
+      response.status(HttpStatus.NOT_FOUND).send();
+
+      return;
+    }
+
+    response.send(messageUpdated);
   }
 
   @Delete(':id')
@@ -33,7 +56,9 @@ export class AppController {
     const removed = this.appService.removeMessage(+id);
 
     if (!removed) {
-      return response.status(HttpStatus.NOT_FOUND).send();
+      response.status(HttpStatus.NOT_FOUND).send();
+
+      return;
     }
 
     response.send();

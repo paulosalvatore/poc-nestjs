@@ -9,8 +9,9 @@ export class AppService {
     return this.messages.filter(Boolean);
   }
 
-  getMessageById(id: number): MessageDto {
+  getMessageById(id: number): MessageDto | undefined {
     const index = this.messages.findIndex(msg => msg?.id === id);
+
     return this.messages[index];
   }
 
@@ -22,7 +23,7 @@ export class AppService {
     return message;
   }
 
-  updateMessage(id: number, message: MessageDto): MessageDto {
+  updateMessage(id: number, message: MessageDto): MessageDto | undefined {
     if (message.id) {
       delete message.id;
     }
@@ -30,6 +31,11 @@ export class AppService {
     message.id = id;
 
     const index = this.messages.findIndex(msg => msg?.id === id);
+
+    if (index < 0) {
+      return;
+    }
+
     this.messages[index] = message;
 
     return message;
