@@ -7,6 +7,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -23,7 +24,7 @@ export class AppController {
   }
 
   @Get(':id')
-  getMessageById(@Param('id') id: string): MessageDto {
+  getMessageById(@Param('id', ParseIntPipe) id: number): MessageDto {
     const message = this.appService.getMessageById(+id);
 
     if (!message) {
@@ -43,7 +44,7 @@ export class AppController {
 
   @Put(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() message: MessageDto,
   ): MessageDto | undefined {
     const messageUpdated = this.appService.updateMessage(+id, message);
@@ -60,8 +61,8 @@ export class AppController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string) {
-    const removed = this.appService.removeMessage(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    const removed = this.appService.removeMessage(id);
 
     if (!removed) {
       throw new HttpException(
