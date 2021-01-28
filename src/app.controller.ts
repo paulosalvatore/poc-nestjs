@@ -1,17 +1,34 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { AppService } from './app.service';
+import { MessageDto } from './message.dto';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) {
+  }
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getMessages(): MessageDto[] {
+    return this.appService.getMessages();
+  }
+
+  @Get(':id')
+  getMessageById(@Param('id') id: string): MessageDto {
+    return this.appService.getMessageById(+id);
   }
 
   @Post()
-  createHello(name: string) {
-    this.appService.createHello(name);
+  createMessage(@Body() message: MessageDto): MessageDto {
+    return this.appService.createMessage(message);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() message: MessageDto): MessageDto {
+    return this.appService.updateMessage(+id, message);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    this.appService.removeMessage(+id);
   }
 }
