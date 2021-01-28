@@ -35,9 +35,11 @@ export class AppService {
     return message;
   }
 
-  removeMessage(id: number) {
+  removeMessage(id: number): boolean {
     const index = this.messages.findIndex(msg => msg?.id === id);
 
     delete this.messages[index];
+
+    return index >= 0;
   }
 }

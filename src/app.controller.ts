@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MessageDto } from './message.dto';
+import { Response } from 'express';
 
 @Controller()
 export class AppController {
@@ -27,7 +28,14 @@ export class AppController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    this.appService.removeMessage(+id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(@Param('id') id: string, @Res() response: Response) {
+    const removed = this.appService.removeMessage(+id);
+
+    if (!removed) {
+      return response.status(HttpStatus.NOT_FOUND).send();
+    }
+
+    response.send();
   }
 }
