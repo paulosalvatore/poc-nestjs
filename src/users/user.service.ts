@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from './user';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   private readonly users: User[] = [
     {
       id: 1,
