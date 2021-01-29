@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { MessageDto } from './message.dto';
 
 @Injectable()
-export class AppService {
+export class MessageService {
   private messages: MessageDto[] = [];
 
   getMessages(): MessageDto[] {
