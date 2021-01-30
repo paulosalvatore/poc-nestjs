@@ -33,7 +33,7 @@ export class MessageController {
 
     if (!message) {
       throw new HttpException(
-        `Can't find message with given ID.`,
+        `Can't find any element with this given ID.`,
         HttpStatus.NOT_FOUND,
       );
     }
@@ -62,7 +62,7 @@ export class MessageController {
 
     if (!messageUpdated) {
       throw new HttpException(
-        `Can't find message with given ID.`,
+        `Can't find any element with this given ID.`,
         HttpStatus.NOT_FOUND,
       );
     }
@@ -77,7 +77,7 @@ export class MessageController {
 
     if (!removed) {
       throw new HttpException(
-        `Can't find message with given ID.`,
+        `Can't find any element with this given ID.`,
         HttpStatus.NOT_FOUND,
       );
     }
