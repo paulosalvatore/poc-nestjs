@@ -15,7 +15,7 @@ export class AuthService {
     email: string,
     pass: string,
   ): Promise<Partial<User> | undefined> {
-    const user = await this.usersService.findOne(email);
+    const user = await this.usersService.user({ email });
 
     if (user && user.password === pass) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
