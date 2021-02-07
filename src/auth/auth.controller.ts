@@ -1,14 +1,19 @@
-import { Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { Public } from '../decorators/public.decorator';
-import { User } from '../users/user';
 import { AuthUser } from '../users/user.decorator';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { UserToken } from './user-token';
+import { Prisma, User } from '@prisma/client';
+import { UserService } from '../users/user.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+  ) {}
 
   @Public()
   @UseGuards(LocalAuthGuard)
@@ -17,8 +22,8 @@ export class AuthController {
     return this.authService.login(user);
   }
 
-  @Get('profile')
-  getProfile(@AuthUser() user: User): User {
-    return user;
+  @Post('register')
+  async signupUser(@Body() userData: Prisma.UserCreateInput): Promise<User> {
+    return this.userService.createUser(userData);
   }
 }

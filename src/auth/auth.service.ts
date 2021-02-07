@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../users/user.service';
-import { User } from '../users/user';
+import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { UserToken } from './user-token';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
   ): Promise<Partial<User> | undefined> {
     const user = await this.usersService.user({ email });
 
-    if (user && user.password === pass) {
+    if (user && (await bcrypt.compare(pass, user.password))) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
 
