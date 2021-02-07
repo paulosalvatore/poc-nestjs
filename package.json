@@ -30,6 +30,8 @@
     "bcrypt": "^5.0.0",
     "class-transformer": "^0.3.2",
     "class-validator": "^0.13.1",
+    "express-rate-limit": "^5.2.3",
+    "helmet": "^4.4.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
