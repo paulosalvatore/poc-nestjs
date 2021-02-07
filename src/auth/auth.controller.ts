@@ -22,6 +22,7 @@ export class AuthController {
     return this.authService.login(user);
   }
 
+  @Public()
   @Post('register')
   async signupUser(@Body() userData: Prisma.UserCreateInput): Promise<User> {
     return this.userService.createUser(userData);
