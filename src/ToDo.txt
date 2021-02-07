@@ -1,0 +1,15 @@
+TODO: Create OneToOne, OneToMany, ManyToOne, ManyToMany relations with Prisma
+TODO: Serialize ManyToMany with same Entity with Prisma
+TODO: Implement Hot Reload (https://docs.nestjs.com/recipes/hot-reload)
+TODO: Entity AutoIncrement when exception occurs.
+        Investigate a little bit more about UNIQUE_EXCEPTION and try to check data before SQL throws it
+TODO: Study a way to simplify EntityValidation notation
+TODO: Map diff between Compodoc and Swagger
+TODO: Generate Doc with Compodoc (https://docs.nestjs.com/recipes/documentation)
+TODO: Generate Swagger (https://docs.nestjs.com/openapi/introduction)
+TODO: Compare CASL and Roles to define which one is better to implement
+TODO: Integrate CASL (https://docs.nestjs.com/security/authorization#integrating-casl)
+TODO: Explore CRUD Generator (https://docs.nestjs.com/recipes/crud-generator)
+TODO: Implement Terminus - Health Checker (https://docs.nestjs.com/recipes/terminus)
+TODO: Explore Microservices (https://docs.nestjs.com/microservices/basics)
+TODO: Implement @nestjs/websockets
