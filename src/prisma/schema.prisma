@@ -30,8 +30,8 @@ enum AuditAction {
 
 model Meta {
   id       Int      @id @default(autoincrement())
-  created  DateTime
-  modified DateTime
+  created  DateTime @default(now())
+  modified DateTime @default(now())
   active   Boolean  @default(false)
 }
 
