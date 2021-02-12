@@ -1,0 +1,6 @@
+model Meta {
+  id       Int      @id @default(autoincrement())
+  created  DateTime
+  modified DateTime
+  active   Boolean  @default(false)
+}
