@@ -1,4 +1,29 @@
 -- CreateTable
+CREATE TABLE `Audit`
+(
+    `id`         INTEGER      NOT NULL AUTO_INCREMENT,
+    `table`      VARCHAR(191) NOT NULL,
+    `foreignKey` INTEGER      NOT NULL,
+    `action`     ENUM('INSERT', 'UPDATE', 'DELETE') NOT NULL,
+    `previous`   JSON,
+    `after`      JSON,
+    `created`    DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Meta`
+(
+    `id`       INTEGER NOT NULL AUTO_INCREMENT,
+    `created`  DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP (3),
+    `modified` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP (3),
+    `active`   BOOLEAN NOT NULL DEFAULT false,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `User`
 (
     `id`        INTEGER      NOT NULL AUTO_INCREMENT,
@@ -6,8 +31,6 @@ CREATE TABLE `User`
     `password`  VARCHAR(191) NOT NULL,
     `name`      VARCHAR(191),
     `cpf`       VARCHAR(11)  NOT NULL,
-    `ddi`       VARCHAR(2),
-    `ddd`       VARCHAR(2),
     `phone`     VARCHAR(15),
     `gender`    ENUM('MALE', 'FEMALE', 'OTHER'),
     `birthdate` DATETIME(3),
@@ -21,12 +44,9 @@ CREATE TABLE `User`
 -- CreateTable
 CREATE TABLE `UserRole`
 (
-    `id`     INTEGER NOT NULL AUTO_INCREMENT,
     `userId` INTEGER NOT NULL,
     `role`   ENUM('ADMIN', 'STUDENT', 'SPEAKER', 'RECEPCIONIST') NOT NULL,
-    UNIQUE INDEX `unique_user_role`(`userId`, `role`),
-
-    PRIMARY KEY (`id`)
+    UNIQUE INDEX `unique_user_role`(`userId`, `role`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
