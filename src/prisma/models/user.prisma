@@ -4,8 +4,6 @@ model User {
   password  String
   name      String?
   cpf       String     @unique @db.VarChar(11)
-  ddi       String?    @db.VarChar(2)
-  ddd       String?    @db.VarChar(2)
   phone     String?    @db.VarChar(15)
   gender    Gender?
   birthdate DateTime?
