@@ -1,5 +1,5 @@
 TODO: Create OneToOne, OneToMany, ManyToOne, ManyToMany relations with Prisma
-TODO: Serialize ManyToMany with same Entity with Prisma
+TODO: Serialize OneToMany & ManyToMany with same Entity with Prisma
 TODO: Implement Hot Reload (https://docs.nestjs.com/recipes/hot-reload)
 TODO: Entity AutoIncrement when exception occurs.
         Investigate a little bit more about UNIQUE_EXCEPTION and try to check data before SQL throws it
