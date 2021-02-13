@@ -1,0 +1,21 @@
+model Course {
+  id     Int     @id @default(autoincrement())
+  title  String  @unique
+  tracks Track[]
+  // Ementa - Aceita HTML ou Markdown?
+  // Carga horária - Serve como base pros eventos
+  // Speakers ativos? - Pode linkar e mostrar infos dos speakers que lecionam esse curso
+  // Público alvo?
+  // Preparação para o curso?
+  // Pré-requisitos? - Podem ser outros cursos. Pode precisar de texto extra tb
+  meta   Meta    @relation(fields: [metaId], references: [id])
+  metaId Int
+}
+
+model Track {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  courses Course[]
+  meta    Meta     @relation(fields: [metaId], references: [id])
+  metaId  Int
+}

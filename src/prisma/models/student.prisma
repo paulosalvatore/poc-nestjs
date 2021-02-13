@@ -4,9 +4,9 @@ model Student {
   userId     Int
   miniResume String?
   lastLogin  DateTime
+  campuses   Campus[]
   meta       Meta     @relation(fields: [metaId], references: [id])
   metaId     Int
-  campuses   Campus[]
   // Gamificação?
   // Recebimento de e-mails
   // Recebimento de notificações

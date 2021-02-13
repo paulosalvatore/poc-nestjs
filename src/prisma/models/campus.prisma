@@ -1,0 +1,7 @@
+model Campus {
+  id     Int    @id @default(autoincrement())
+  name   String @unique
+  users  User[]
+  meta   Meta   @relation(fields: [metaId], references: [id])
+  metaId Int
+}

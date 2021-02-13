@@ -14,30 +14,3 @@ model User {
   meta      Meta       @relation(fields: [metaId], references: [id])
   metaId    Int
 }
-
-model UserRole {
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
-  role   Role
-
-  @@unique([userId, role], name: "unique_user_role")
-}
-
-enum Role {
-  ADMIN
-  STUDENT
-  SPEAKER
-  RECEPCIONIST
-}
-
-model Campus {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  users User[]
-}
-
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
-}
