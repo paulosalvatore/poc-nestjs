@@ -1,7 +1,8 @@
 model Course {
-  id     Int     @id @default(autoincrement())
-  title  String  @unique
-  tracks Track[]
+  id       Int     @id @default(autoincrement())
+  title    String  @unique
+  tracks   Track[]
+  speakers Speaker[]
   // OBS.: Tem um problema que se não for curso e for palestra, perde os campos que estão aqui de ementa, c/h, etc
   // Ementa - Aceita HTML ou Markdown?
   // Carga horária - Serve como base pros eventos
@@ -9,8 +10,8 @@ model Course {
   // Público alvo?
   // Preparação para o curso?
   // Pré-requisitos? - Podem ser outros cursos. Pode precisar de texto extra tb
-  meta   Meta    @relation(fields: [metaId], references: [id])
-  metaId Int
+  meta     Meta    @relation(fields: [metaId], references: [id])
+  metaId   Int
 }
 
 model Track {
