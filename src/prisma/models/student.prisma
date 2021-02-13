@@ -8,7 +8,8 @@ model Student {
   meta       Meta     @relation(fields: [metaId], references: [id])
   metaId     Int
   // Gamificação?
-  // Recebimento de e-mails
-  // Recebimento de notificações
+  // Recebimento de e-mails? Poderia listar quais tipos de e-mails quer receber. Isso fica nessa tabela?
+  // Recebimento de notificações no app?
+  // Recebimento do certificado (por e-mail ou só no site?)
   // Newsletter
 }

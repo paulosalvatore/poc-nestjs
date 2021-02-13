@@ -1,0 +1,12 @@
+model Enrollment {
+  id         Int      @id @default(autoincrement())
+  event      Event    @relation(fields: [eventId], references: [id])
+  eventId    Int
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  attended   Boolean
+  meta       Meta     @relation(fields: [metaId], references: [id])
+  metaId     Int
+
+  @@unique([eventId, userId], name: "unique_event_user")
+}
