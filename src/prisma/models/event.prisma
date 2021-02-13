@@ -1,0 +1,24 @@
+model Event {
+  id     Int     @id @default(autoincrement())
+  // Enum com tipos de eventos (Palestra, Curso, etc) -> Atualmente a tabela EventType faz isso
+  // OBS.: Tem um problema que se não for curso e for palestra, perde os campos que estão na tabela de cursos (ementa, c/h, etc)
+  title  String? // Caso seja uma palestra ou algo do tipo
+  course Course? // Se o tipo for curso
+  // Campus (pode ser online ou algum campus presencial) - Se for online, precisa de dados de acesso, senão pegar endereço do campus
+  // Dados de acesso via zoom ou algo do tipo. Dá pra ter um campo JSON aqui com esses dados
+  // -> Eventualmente dá pra fazer consulta nesse json e não fica tão fechado pra um tipo de serviço de sala online
+  // -> No caso do zoom, precisa de URL, ID, Password
+  // -> RoomType atualmente define o tipo do serviço sendo usado
+  // Vagas
+  // Carga horária - Pode ser a mesma do curso ou uma carga especial - Certificado deve pegar dessa carga
+  // Data de Início/Final
+  // Inscrições abertas? Define se as inscrições estão abertas ou não.
+  // Bloquear inscrições após início do evento?
+  // Período de inscrições liberadas (será que precisa?)
+  // Speaker (pode ser alguém da lista de speakers do curso ou uma outra pessoa)
+  // Questionário (por enquanto n vai ter, mas poderia pensar em algo)
+  // Template do Certificado que será usado
+  // Atualmente precisa de uma imagem do evento, mas podemos ver de tirar isso
+  meta   Meta    @relation(fields: [metaId], references: [id])
+  metaId Int
+}

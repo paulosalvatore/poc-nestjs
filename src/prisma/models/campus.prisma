@@ -2,6 +2,7 @@ model Campus {
   id     Int    @id @default(autoincrement())
   name   String @unique
   users  User[]
+  // Informações de endereço
   meta   Meta   @relation(fields: [metaId], references: [id])
   metaId Int
 }

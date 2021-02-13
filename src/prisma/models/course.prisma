@@ -2,6 +2,7 @@ model Course {
   id     Int     @id @default(autoincrement())
   title  String  @unique
   tracks Track[]
+  // OBS.: Tem um problema que se não for curso e for palestra, perde os campos que estão aqui de ementa, c/h, etc
   // Ementa - Aceita HTML ou Markdown?
   // Carga horária - Serve como base pros eventos
   // Speakers ativos? - Pode linkar e mostrar infos dos speakers que lecionam esse curso
