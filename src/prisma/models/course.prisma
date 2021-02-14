@@ -51,9 +51,19 @@ model CourseSpeakerCampus {
 }
 
 model Track {
-  id      Int      @id @default(autoincrement())
-  name    String   @unique
-  courses Course[]
-  meta    Meta     @relation(fields: [metaId], references: [id])
-  metaId  Int
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  courses    Course[]
+  formations Formation[]
+  meta       Meta     @relation(fields: [metaId], references: [id])
+  metaId     Int
+}
+
+model Formation {
+  id       Int      @id @default(autoincrement())
+  title    String   @unique
+  subtitle String   @unique
+  tracks   Track[]
+  meta     Meta     @relation(fields: [metaId], references: [id])
+  metaId   Int
 }
