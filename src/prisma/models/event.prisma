@@ -1,9 +1,12 @@
 model Event {
   id     Int     @id @default(autoincrement())
-  // Enum com tipos de eventos (Palestra, Curso, etc) -> Atualmente a tabela EventType faz isso
+  // Tabela com tipos de eventos (Palestra, Curso, etc) -> Atualmente a tabela EventType faz isso
+  // Esses tipos eles podem ser privados/públicos
   // OBS.: Tem um problema que se não for curso e for palestra, perde os campos que estão na tabela de cursos (ementa, c/h, etc)
   title  String? // Caso seja uma palestra ou algo do tipo
   course Course? // Se o tipo for curso
+  // Campus na real pode ser modalidade? Cada unidade pode ter tanto presencial quanto online, sendo que a agenda de online combina, mas a agenda presencial é individual
+  // Tb seria legal pegar o IP da pessoa, saber a localização e selecionar a unidade automaticamente
   // Campus (pode ser online ou algum campus presencial) - Se for online, precisa de dados de acesso, senão pegar endereço do campus
   // Dados de acesso via zoom ou algo do tipo. Dá pra ter um campo JSON aqui com esses dados
   // -> Eventualmente dá pra fazer consulta nesse json e não fica tão fechado pra um tipo de serviço de sala online
@@ -11,14 +14,22 @@ model Event {
   // -> RoomType atualmente define o tipo do serviço sendo usado
   // Vagas
   // Carga horária - Pode ser a mesma do curso ou uma carga especial - Certificado deve pegar dessa carga
+  // Não dá pra var override na mesma carga horária. Botão de override é separado.
   // Data de Início/Final
   // Inscrições abertas? Define se as inscrições estão abertas ou não.
+  // Se não estiver aberta, tem um campo para ela sinalizar interesse
+  // Ela pode receber e-mail qnd as inscrições abrirem.
+  // Ou ela pode até se inscrever automaticamente qnd abrirem (faz sentido isso?)
+  // CALMA LÁ! Acho que não tem mais isso de abrir curso e publicar sem que as vagas estejam abertas. Confirmar com Mari
+  // N vai ter inscrição de evento bloqueada, pra publicar um evento tem que liberar inscrição. No máximo o campo de liberar inscrição deve ser ativado em casos que realmente precisa travar o curso de novas inscrições pra n ter gente se inscrevendo a toa
   // Bloquear inscrições após início do evento?
   // Período de inscrições liberadas (será que precisa?)
-  // Speaker (pode ser alguém da lista de speakers do curso ou uma outra pessoa)
+  // Speaker[] (pode ser alguém da lista de speakers do curso ou uma outra pessoa)
+  // Na vdd esse tipo Speaker é o CourseSpeakerCampus
   // Questionário (por enquanto n vai ter, mas poderia pensar em algo)
   // Template do Certificado que será usado
-  // Atualmente precisa de uma imagem do evento, mas podemos ver de tirar isso
+  // Nesse momento, um evento está relacionado a um campus
+  // Portanto, o template pode ser o que está ativo para aquele campus
   meta   Meta    @relation(fields: [metaId], references: [id])
   metaId Int
 }
