@@ -5,7 +5,7 @@ model User {
   name      String?
   nickname  String?
   cpf       String     @unique @db.VarChar(11)
-  phone     String?    @db.VarChar(15)
+  phone     String?    @db.VarChar(11)
   gender    Gender?
   birthdate DateTime?
   avatar    String?
