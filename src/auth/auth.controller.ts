@@ -5,16 +5,13 @@ import {
     HttpStatus,
     Post,
     UnauthorizedException,
-    UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthUser } from '../users/user.decorator';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { UserToken } from './models/user-token';
+import { UserToken } from './user-token';
 import { Prisma, User } from '@prisma/client';
 import { UserService } from '../users/user.service';
-import { LocalAuthGuard } from './guards/local-auth.guard';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { Public } from './public.decorator';
 
 @Controller('auth')
