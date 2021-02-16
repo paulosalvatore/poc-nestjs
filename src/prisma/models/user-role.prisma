@@ -10,5 +10,4 @@ enum Role {
   ADMIN
   STUDENT
   SPEAKER
-  RECEPCIONIST
 }

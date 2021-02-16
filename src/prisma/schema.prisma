@@ -32,7 +32,17 @@ model Campus {
   id     Int    @id @default(autoincrement())
   name   String @unique
   users  User[]
-  // Informações de endereço
+  speakers     Speaker[]
+  logradouro String
+  numero String
+  complemento String
+  bairro String
+  cep String @db.VarChar(8)
+  referencia String
+  telefone String @db.VarChar(11)
+  email String
+  latitude Decimal
+  longitude Decimal
   meta   Meta   @relation(fields: [metaId], references: [id])
   metaId Int
 }
@@ -41,65 +51,60 @@ model Campus {
 model Course {
   id       Int     @id @default(autoincrement())
   title    String  @unique
+  type     CourseType
   tracks   Track[]
-  speakers Speaker[]
-  // OBS.: Tem um problema que se não for curso e for palestra, perde os campos que estão aqui de ementa, c/h, etc
-  // Ementa - Aceita HTML ou Markdown?
-  // Carga horária - Serve como base pros eventos
-  // Speakers ativos? - Pode linkar e mostrar infos dos speakers que lecionam esse curso
-  // Público alvo?
-  // Preparação para o curso?
-  // Pré-requisitos? - Podem ser outros cursos. Pode precisar de texto extra tb
+  campuses Campus[]
+  courseSpeakers CourseSpeaker[]
+  ementa  String
+  courseClasses CourseClass[]
+  targetAudience String
+  preparation String
+  preRequisites String
   meta     Meta    @relation(fields: [metaId], references: [id])
   metaId   Int
 }
 
-model Track {
-  id      Int      @id @default(autoincrement())
-  name    String   @unique
-  courses Course[]
-  meta    Meta     @relation(fields: [metaId], references: [id])
-  metaId  Int
+model CourseClass {
+  id        Int        @id @default(autoincrement())
+  course Course
+  gradeCurricular  String
+  cargaHoraria     Decimal
+  courseSpeakers   CourseSpeaker[]
+  meta      Meta       @relation(fields: [metaId], references: [id])
+  metaId    Int
 }
 
+model CourseSpeaker {
+  id        Int        @id @default(autoincrement())
+  course  Course
+  speaker Speaker
+  campus  Campus
+  courseClasses CourseClass[]
+  meta      Meta       @relation(fields: [metaId], references: [id])
+  metaId    Int
+}
 
-model Enrollment {
+enum CourseType {
+    Course
+    Lecture
+}
+
+model Track {
   id         Int      @id @default(autoincrement())
-  event      Event    @relation(fields: [eventId], references: [id])
-  eventId    Int
-  user       User     @relation(fields: [userId], references: [id])
-  userId     Int
-  attended   Boolean
+  name       String   @unique
+  courses    Course[]
+  formations Formation[]
   meta       Meta     @relation(fields: [metaId], references: [id])
   metaId     Int
-
-  @@unique([eventId, userId], name: "unique_event_user")
 }
 
-
-model Event {
-  id     Int     @id @default(autoincrement())
-  // Enum com tipos de eventos (Palestra, Curso, etc) -> Atualmente a tabela EventType faz isso
-  // OBS.: Tem um problema que se não for curso e for palestra, perde os campos que estão na tabela de cursos (ementa, c/h, etc)
-  title  String? // Caso seja uma palestra ou algo do tipo
-  course Course? // Se o tipo for curso
-  // Campus (pode ser online ou algum campus presencial) - Se for online, precisa de dados de acesso, senão pegar endereço do campus
-  // Dados de acesso via zoom ou algo do tipo. Dá pra ter um campo JSON aqui com esses dados
-  // -> Eventualmente dá pra fazer consulta nesse json e não fica tão fechado pra um tipo de serviço de sala online
-  // -> No caso do zoom, precisa de URL, ID, Password
-  // -> RoomType atualmente define o tipo do serviço sendo usado
-  // Vagas
-  // Carga horária - Pode ser a mesma do curso ou uma carga especial - Certificado deve pegar dessa carga
-  // Data de Início/Final
-  // Inscrições abertas? Define se as inscrições estão abertas ou não.
-  // Bloquear inscrições após início do evento?
-  // Período de inscrições liberadas (será que precisa?)
-  // Speaker (pode ser alguém da lista de speakers do curso ou uma outra pessoa)
-  // Questionário (por enquanto n vai ter, mas poderia pensar em algo)
-  // Template do Certificado que será usado
-  // Atualmente precisa de uma imagem do evento, mas podemos ver de tirar isso
-  meta   Meta    @relation(fields: [metaId], references: [id])
-  metaId Int
+model Formation {
+  id       Int      @id @default(autoincrement())
+  title    String   @unique
+  subtitle String   @unique
+  tracks   Track[]
+  meta     Meta     @relation(fields: [metaId], references: [id])
+  metaId   Int
 }
 
 
@@ -120,29 +125,15 @@ model Meta {
 
 model Speaker {
   id         Int      @id @default(autoincrement())
-  user       User     @unique @relation(fields: [userId], references: [id])
-  userId     Int
-  courses    Course[]
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int @unique
+  campuses     Campus[]
+  courseSpeakers CourseSpeaker[]
   meta       Meta     @relation(fields: [metaId], references: [id])
   metaId     Int
 }
 
-
-model Student {
-  id         Int      @id @default(autoincrement())
-  user       User     @unique @relation(fields: [userId], references: [id])
-  userId     Int
-  miniResume String?
-  lastLogin  DateTime
-  campuses   Campus[]
-  meta       Meta     @relation(fields: [metaId], references: [id])
-  metaId     Int
-  // Gamificação?
-  // Recebimento de e-mails? Poderia listar quais tipos de e-mails quer receber. Isso fica nessa tabela?
-  // Recebimento de notificações no app?
-  // Recebimento do certificado (por e-mail ou só no site?)
-  // Newsletter
-}
+// Página do professor não é MVP
 
 
 model UserRole {
@@ -157,19 +148,6 @@ enum Role {
   ADMIN
   STUDENT
   SPEAKER
-  RECEPCIONIST
-}
-
-
-model SamsungSSO {
-  id          Int    @id @default(autoincrement())
-  user        User   @unique @relation(fields: [userId], references: [id])
-  userId      Int
-  email       String @unique
-  hash        String @unique
-  samsungUser String @unique
-  meta        Meta   @relation(fields: [metaId], references: [id])
-  metaId      Int
 }
 
 
@@ -186,6 +164,7 @@ model User {
   avatar    String?
   campuses  Campus[]
   role      UserRole[]
+  speaker Speaker?
   meta      Meta       @relation(fields: [metaId], references: [id])
   metaId    Int
 }

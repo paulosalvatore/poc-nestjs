@@ -1,53 +1,42 @@
 model Course {
   id       Int     @id @default(autoincrement())
   title    String  @unique
+  type     CourseType
   tracks   Track[]
   campuses Campus[]
-  speakers CourseSpeaker[] // Precisa selecionar um speaker pra cada campus em que o curso está inserido. Um speaker pode estar em mais de um campus
-  publicado Boolean
-  eventData EventData
+  courseSpeakers CourseSpeaker[]
+  ementa  String
+  courseClasses CourseClass[]
+  targetAudience String
+  preparation String
+  preRequisites String
   meta     Meta    @relation(fields: [metaId], references: [id])
   metaId   Int
 }
 
-// Falta falar sobre as sequências das trilhas
-
-model Lecture {
-  id       Int     @id @default(autoincrement())
-  title    String
-  campuses Campus[]
-  eventData EventData
+model CourseClass {
+  id        Int        @id @default(autoincrement())
+  course Course
+  gradeCurricular  String
+  cargaHoraria     Decimal
+  courseSpeakers   CourseSpeaker[]
+  meta      Meta       @relation(fields: [metaId], references: [id])
+  metaId    Int
 }
 
-model EventData {
-  // Ementa - Aceita apenas texto
-  // Grade Curricular é composta pelas aulas (classes)
-  // Carga horária - Serve como base pros eventos. É calculada direto pela duração das aulas somadas
-  // Speakers ativos? - Pode linkar e mostrar infos dos speakers que lecionam esse curso
-  // Precisa ter as aulas já registradas aqui
-  classes ClassData[]
-  // Público alvo?
-  // Preparação para o curso? -> De repente na preparação pode ser:
-  // Seria legal se preparação fosse um fluxo de páginas
-  // Mas preparação não é MVP, então podemos deixar pensado, mas não executar
-  // Pré-requisitos? - Podem ser outros cursos. Pode precisar de texto extra tb
-}
-
-model ClassData {
-    // Carga horária
-    // CourseSpeaker[]
-    // Grade curricular de cada aula. Isso irá compor a grade do curso
-}
-
-// Faz sentido essa tabela ter os três nomes?
-model CourseSpeakerCampus {
-//  id      Int      @id @default(autoincrement())
-  courses Course
+model CourseSpeaker {
+  id        Int        @id @default(autoincrement())
+  course  Course
   speaker Speaker
   campus  Campus
-//  meta    Meta     @relation(fields: [metaId], references: [id])
-//  metaId  Int
-    // Pode ter uma tri-join?
+  courseClasses CourseClass[]
+  meta      Meta       @relation(fields: [metaId], references: [id])
+  metaId    Int
+}
+
+enum CourseType {
+    Course
+    Lecture
 }
 
 model Track {

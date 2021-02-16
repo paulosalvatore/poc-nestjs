@@ -11,6 +11,7 @@ model User {
   avatar    String?
   campuses  Campus[]
   role      UserRole[]
+  speaker Speaker?
   meta      Meta       @relation(fields: [metaId], references: [id])
   metaId    Int
 }

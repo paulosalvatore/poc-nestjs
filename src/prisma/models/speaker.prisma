@@ -1,8 +1,9 @@
 model Speaker {
   id         Int      @id @default(autoincrement())
-  user       User     @unique @relation(fields: [userId], references: [id])
-  userId     Int
-  courses_speakers_campuses     CourseSpeakerCampus[]
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int @unique
+  campuses     Campus[]
+  courseSpeakers CourseSpeaker[]
   meta       Meta     @relation(fields: [metaId], references: [id])
   metaId     Int
 }
