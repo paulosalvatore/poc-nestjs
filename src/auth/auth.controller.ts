@@ -15,7 +15,7 @@ import { Prisma, User } from '@prisma/client';
 import { UserService } from '../users/user.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { Public } from '../decorators/public.decorator';
+import { Public } from './public.decorator';
 
 @Controller('auth')
 export class AuthController {
