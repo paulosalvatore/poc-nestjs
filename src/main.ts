@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
-import { GuardModule } from './guard.module';
 import * as helmet from 'helmet';
 import * as rateLimit from 'express-rate-limit';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
-    const app = await NestFactory.create<NestExpressApplication>(GuardModule, {
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
         cors: true,
     });
 

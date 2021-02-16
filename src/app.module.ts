@@ -7,13 +7,13 @@ import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 
 @Module({
-  imports: [UserModule, MessageModule, PostModule],
-  controllers: [AppController],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
-  ],
+    imports: [UserModule, MessageModule, PostModule],
+    controllers: [AppController],
+    providers: [
+        {
+            provide: APP_GUARD,
+            useClass: JwtAuthGuard,
+        },
+    ],
 })
 export class AppModule {}

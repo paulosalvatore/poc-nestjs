@@ -33,9 +33,9 @@
     }
   },
   "lint-staged": {
-    "src/**/*.js": [
+    "src/**/*.ts": [
       "npx pretty-quick --staged",
-      "npx eslint --fix src --ext .js"
+      "npx eslint --fix src --ext .ts"
     ]
   },
   "dependencies": {
