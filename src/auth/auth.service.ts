@@ -18,20 +18,22 @@ export class AuthService {
     ): Promise<Partial<User> | undefined> {
         const user = await this.usersService.user({ email });
 
-        if (user && (await bcrypt.compare(pass, user?.password))) {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const { password, ...result } = user;
+        if (user) {
+            const isValid = await bcrypt.compare(pass, user?.password);
 
-            return result;
-        } else {
-            throw Error(`User wasn't found.`);
+            if (isValid) {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { password, ...result } = user;
+
+                return result;
+            }
         }
+
+        throw Error(`User wasn't found.`);
     }
 
     async login({ email, password }: User): Promise<UserToken> {
         const user = await this.validateUser(email, password);
-
-        console.log(user);
 
         const payload = { username: user.email, sub: user.id };
 
