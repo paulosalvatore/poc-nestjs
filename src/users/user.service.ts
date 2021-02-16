@@ -36,6 +36,9 @@ export class UserService {
         const salt = 10;
         data.password = await bcrypt.hash(data.password, salt);
 
+        // TODO: Tentar tirar essa parte daqui e colocar automático
+        // Talvez via trigger com o campo aqui sendo opcional
+        // ou via algum evento global de beforeCreate
         data.meta = {
             create: {},
         };
