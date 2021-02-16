@@ -36,6 +36,10 @@ export class UserService {
         const salt = 10;
         data.password = await bcrypt.hash(data.password, salt);
 
+        data.meta = {
+            create: {},
+        };
+
         const createdUser = await this.prisma.user.create({ data });
 
         delete createdUser.password;
