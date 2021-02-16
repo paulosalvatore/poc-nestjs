@@ -1,18 +1,18 @@
 model Campus {
-  id     Int    @id @default(autoincrement())
-  name   String @unique
-  users  User[]
-  speakers     Speaker[]
-  logradouro String
-  numero String
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  users       User[]
+  speakers    Speaker[]
+  logradouro  String
+  numero      String
   complemento String
-  bairro String
-  cep String @db.VarChar(8)
-  referencia String
-  telefone String @db.VarChar(11)
-  email String
-  latitude Decimal
-  longitude Decimal
-  meta   Meta   @relation(fields: [metaId], references: [id])
-  metaId Int
+  bairro      String
+  cep         String    @db.VarChar(8)
+  referencia  String
+  telefone    String    @db.VarChar(11)
+  email       String
+  latitude    Decimal
+  longitude   Decimal
+  meta        Meta      @relation(fields: [metaId], references: [id])
+  metaId      Int
 }

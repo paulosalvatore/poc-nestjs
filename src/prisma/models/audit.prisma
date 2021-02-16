@@ -1,5 +1,5 @@
 model Audit {
-  id         Int        @id @default(autoincrement())
+  id         Int         @id @default(autoincrement())
   table      String
   foreignKey Int
   action     AuditAction

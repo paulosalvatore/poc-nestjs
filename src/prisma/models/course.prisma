@@ -1,58 +1,58 @@
 model Course {
-  id       Int     @id @default(autoincrement())
-  title    String  @unique
-  type     CourseType
-  tracks   Track[]
-  campuses Campus[]
+  id             Int             @id @default(autoincrement())
+  title          String          @unique
+  type           CourseType
+  tracks         Track[]
+  campuses       Campus[]
   courseSpeakers CourseSpeaker[]
-  ementa  String
-  courseClasses CourseClass[]
+  ementa         String
+  courseClasses  CourseClass[]
   targetAudience String
-  preparation String
-  preRequisites String
-  meta     Meta    @relation(fields: [metaId], references: [id])
-  metaId   Int
+  preparation    String
+  preRequisites  String
+  meta           Meta            @relation(fields: [metaId], references: [id])
+  metaId         Int
 }
 
 model CourseClass {
-  id        Int        @id @default(autoincrement())
-  course Course
-  gradeCurricular  String
-  cargaHoraria     Decimal
-  courseSpeakers   CourseSpeaker[]
-  meta      Meta       @relation(fields: [metaId], references: [id])
-  metaId    Int
+  id              Int             @id @default(autoincrement())
+  course          Course
+  gradeCurricular String
+  cargaHoraria    Decimal
+  courseSpeakers  CourseSpeaker[]
+  meta            Meta            @relation(fields: [metaId], references: [id])
+  metaId          Int
 }
 
 model CourseSpeaker {
-  id        Int        @id @default(autoincrement())
-  course  Course
-  speaker Speaker
-  campus  Campus
+  id            Int           @id @default(autoincrement())
+  course        Course
+  speaker       Speaker
+  campus        Campus
   courseClasses CourseClass[]
-  meta      Meta       @relation(fields: [metaId], references: [id])
-  metaId    Int
+  meta          Meta          @relation(fields: [metaId], references: [id])
+  metaId        Int
 }
 
 enum CourseType {
-    Course
-    Lecture
+  Course
+  Lecture
 }
 
 model Track {
-  id         Int      @id @default(autoincrement())
-  name       String   @unique
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
   courses    Course[]
   formations Formation[]
-  meta       Meta     @relation(fields: [metaId], references: [id])
+  meta       Meta        @relation(fields: [metaId], references: [id])
   metaId     Int
 }
 
 model Formation {
-  id       Int      @id @default(autoincrement())
-  title    String   @unique
-  subtitle String   @unique
+  id       Int     @id @default(autoincrement())
+  title    String  @unique
+  subtitle String  @unique
   tracks   Track[]
-  meta     Meta     @relation(fields: [metaId], references: [id])
+  meta     Meta    @relation(fields: [metaId], references: [id])
   metaId   Int
 }

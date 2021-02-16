@@ -1,11 +1,11 @@
 model Speaker {
-  id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [userId], references: [id])
-  userId     Int @unique
-  campuses     Campus[]
+  id             Int             @id @default(autoincrement())
+  user           User            @relation(fields: [userId], references: [id])
+  userId         Int             @unique
+  campuses       Campus[]
   courseSpeakers CourseSpeaker[]
-  meta       Meta     @relation(fields: [metaId], references: [id])
-  metaId     Int
+  meta           Meta            @relation(fields: [metaId], references: [id])
+  metaId         Int
 }
 
 // Página do professor não é MVP
