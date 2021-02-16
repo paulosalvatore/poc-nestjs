@@ -1,5 +1,4 @@
 import {
-    Body,
     Controller,
     HttpCode,
     HttpStatus,
@@ -10,16 +9,12 @@ import { AuthService } from './auth.service';
 import { AuthUser } from '../users/user.decorator';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { UserToken } from './user-token';
-import { Prisma, User } from '@prisma/client';
-import { UserService } from '../users/user.service';
+import { User } from '@prisma/client';
 import { Public } from './public.decorator';
 
 @Controller('auth')
 export class AuthController {
-    constructor(
-        private authService: AuthService,
-        private userService: UserService,
-    ) {}
+    constructor(private authService: AuthService) {}
 
     @Public()
     @Post('login')
@@ -28,11 +23,5 @@ export class AuthController {
         return this.authService.login(user).catch(e => {
             throw new UnauthorizedException(e.message);
         });
-    }
-
-    @Public()
-    @Post('register')
-    async signupUser(@Body() userData: Prisma.UserCreateInput): Promise<User> {
-        return this.userService.createUser(userData);
     }
 }
