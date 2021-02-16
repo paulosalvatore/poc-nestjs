@@ -2,5 +2,5 @@ model Meta {
   id       Int      @id @default(autoincrement())
   created  DateTime @default(now())
   modified DateTime @default(now())
-  active   Boolean  @default(false)
+  active   Boolean  @default(true)
 }
