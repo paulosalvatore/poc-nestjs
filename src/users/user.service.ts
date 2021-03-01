@@ -1,11 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { HttpService, Injectable } from '@nestjs/common';
 import { PrismaService } from '../services/prisma.service';
 import { Prisma, User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { Observable } from 'rxjs';
+import { AxiosResponse } from 'axios';
+import { map } from 'rxjs/operators';
+
+export interface PokemonApiResult {
+    count: number;
+    next?: string;
+    previous?: string;
+    results: Pokemon[];
+}
+
+export interface Pokemon {
+    name: string;
+    url: string;
+}
 
 @Injectable()
 export class UserService {
-    constructor(private prisma: PrismaService) {}
+    constructor(
+        private prisma: PrismaService,
+        private httpService: HttpService,
+    ) {}
+
+    findAll(): Observable<AxiosResponse<PokemonApiResult>> {
+        return this.httpService
+            .get('https://pokeapi.co/api/v2/pokemon')
+            .pipe(map(value => value.data));
+    }
 
     async user(
         userWhereUniqueInput: Prisma.UserWhereUniqueInput,
